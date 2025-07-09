@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { CONFIG } from "../../config/env";
+
+import { CONFIG } from "@/config/env";
 
 const useRepositoryQuery = () => {
   return useQuery({

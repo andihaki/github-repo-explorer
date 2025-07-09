@@ -1,10 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { CONFIG } from "../../config/env";
+import { CONFIG } from "@/config/env";
 import type { UsersResponse } from "./types";
 
 const useUsersQuery = (username: string) => {
   return useQuery<UsersResponse>({
+    enabled: Boolean(username),
     queryKey: ["users", username],
     queryFn: async () => {
       const params = new URLSearchParams({
