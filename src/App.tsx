@@ -1,6 +1,6 @@
-import "./App.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Home from "./pages/Home";
+import { Provider } from "./components/ui/provider";
 
 const THIRTY_SECONDS = 30000;
 const queryClient = new QueryClient({
@@ -15,7 +15,9 @@ const queryClient = new QueryClient({
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <Home />
+      <Provider>
+        <Home />
+      </Provider>
     </QueryClientProvider>
   );
 }
