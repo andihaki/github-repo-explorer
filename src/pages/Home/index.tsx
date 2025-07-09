@@ -19,7 +19,7 @@ const Home = () => {
       }}
     >
       {users.map((user) => (
-        <div key={user.id} style={{ minWidth: 200 }}>
+        <div key={user.id} style={{ minWidth: 142 }}>
           <h2>{user.login}</h2>
           <a href={user.html_url} target="_blank" rel="noopener noreferrer">
             <img src={user.avatar_url} alt={user.login} width="50" />
