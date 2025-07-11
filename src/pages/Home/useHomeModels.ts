@@ -1,7 +1,7 @@
 import { useState } from "react";
 
-import useUsersQuery from "../queries/userUsersQuery";
 import { useDebounce } from "@/helpers/useDebounce";
+import useUsersQuery from "./queries/userUsersQuery";
 
 const useHomeModels = () => {
   const [username, setUsername] = useState("");

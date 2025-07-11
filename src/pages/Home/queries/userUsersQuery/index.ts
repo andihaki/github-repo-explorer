@@ -1,13 +1,20 @@
 import { useQuery } from "@tanstack/react-query";
 
 import { CONFIG } from "@/config/env";
+import type { UsersResponse } from "./types";
 
-const useRepositoryQuery = () => {
-  return useQuery({
-    queryKey: ["repository"],
+const useUsersQuery = (username: string) => {
+  return useQuery<UsersResponse>({
+    enabled: Boolean(username),
+    queryKey: ["users", username],
     queryFn: async () => {
+      const params = new URLSearchParams({
+        q: username,
+        per_page: "5",
+        page: "1",
+      });
       const response = await fetch(
-        "https://api.github.com/users/andihaki/repos",
+        `https://api.github.com/search/users?${params.toString()}`,
         {
           headers: {
             Authorization: `Bearer ${CONFIG.GITHUB_TOKEN}`,
@@ -23,4 +30,4 @@ const useRepositoryQuery = () => {
   });
 };
 
-export default useRepositoryQuery;
+export default useUsersQuery;

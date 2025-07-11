@@ -1,10 +1,10 @@
 export interface UsersResponse {
   total_count: number;
   incomplete_results: boolean;
-  items: User[];
+  items: IUser[];
 }
 
-export interface User {
+export interface IUser {
   login: string;
   id: number;
   node_id: string;
