@@ -1,20 +1,15 @@
 import { useQuery } from "@tanstack/react-query";
 
 import { CONFIG } from "@/config/env";
-import type { UsersResponse } from "./types";
+import type { IRepository } from "./types";
 
-const useUsersQuery = (username: string) => {
-  return useQuery<UsersResponse>({
+const useRepositoryQuery = (username: string) => {
+  return useQuery<IRepository[]>({
     enabled: Boolean(username),
-    queryKey: ["users", username],
+    queryKey: ["repository", username],
     queryFn: async () => {
-      const params = new URLSearchParams({
-        q: username,
-        per_page: "30",
-        page: "1",
-      });
       const response = await fetch(
-        `https://api.github.com/search/users?${params.toString()}`,
+        `https://api.github.com/users/${username}/repos`,
         {
           headers: {
             Authorization: `Bearer ${CONFIG.GITHUB_TOKEN}`,
@@ -30,4 +25,4 @@ const useUsersQuery = (username: string) => {
   });
 };
 
-export default useUsersQuery;
+export default useRepositoryQuery;
