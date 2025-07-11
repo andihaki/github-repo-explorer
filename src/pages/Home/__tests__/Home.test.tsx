@@ -105,4 +105,63 @@ describe("Home Page", () => {
       screen.getByPlaceholderText("Search for a GitHub user")
     ).toBeInTheDocument();
   });
+
+  it("render error state for users", async () => {
+    mockServer.use(
+      http.get(
+        "https://api.github.com/search/users?q=dan&per_page=5&page=1",
+        async () => {
+          return HttpResponse.json({}, { status: 500 });
+        }
+      )
+    );
+    render(
+      <TestWrapper>
+        <Home />
+      </TestWrapper>
+    );
+    expect(
+      screen.getByText("GitHub User & Repository Search")
+    ).toBeInTheDocument();
+
+    const searchInput = screen.getByTestId("search-input");
+    await userEvent.type(searchInput, "dan");
+    expect(await screen.findByText("Error fetching users."));
+  });
+
+  it("render error state for repositories", async () => {
+    const username = "dan";
+    mockServer.use(
+      http.get(
+        "https://api.github.com/search/users?q=dan&per_page=5&page=1",
+        async () => {
+          return HttpResponse.json(USERS_MOCK);
+        }
+      ),
+      http.get(`https://api.github.com/users/${username}/repos`, async () => {
+        return HttpResponse.json({}, { status: 500 });
+      })
+    );
+    render(
+      <TestWrapper>
+        <Home />
+      </TestWrapper>
+    );
+    expect(
+      screen.getByText("GitHub User & Repository Search")
+    ).toBeInTheDocument();
+
+    expect(
+      screen.getByText("GitHub User & Repository Search")
+    ).toBeInTheDocument();
+
+    const searchInput = screen.getByTestId("search-input");
+    await userEvent.type(searchInput, username);
+    const userList = await screen.findAllByTestId("user");
+    expect(userList).toHaveLength(5);
+
+    const [firstUser] = userList;
+    await userEvent.click(firstUser);
+    expect(await screen.findByText("Error fetching repositories."));
+  });
 });
