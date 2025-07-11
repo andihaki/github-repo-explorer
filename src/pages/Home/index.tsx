@@ -2,6 +2,7 @@ import {
   Accordion,
   Box,
   CloseButton,
+  Heading,
   Input,
   InputGroup,
   Stack,
@@ -21,16 +22,20 @@ const Home = () => {
         setUsername("");
       }}
       me="-2"
+      data-testid="clear-input"
     />
   ) : undefined;
 
   return (
     <Box maxW="md" mx="auto" p={4} position="relative" backgroundColor="black">
+      <Heading as="h1" size="lg" mb={4} color="white">
+        GitHub User & Repository Search
+      </Heading>
       <InputGroup
         endElement={endElement}
-        top={0}
+        top="0"
         position="sticky"
-        zIndex={1}
+        zIndex={10}
         backgroundColor="black"
       >
         <Input
@@ -38,6 +43,7 @@ const Home = () => {
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           autoFocus
+          data-testid="search-input"
         />
       </InputGroup>
       {/* <Button

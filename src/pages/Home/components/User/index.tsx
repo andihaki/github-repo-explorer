@@ -16,6 +16,7 @@ const User = ({ user }: Props) => {
         top={9}
         backgroundColor="black"
         zIndex={1}
+        data-testid="user"
       >
         <Span>
           <Avatar.Root size="lg">

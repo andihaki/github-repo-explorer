@@ -1,19 +1,16 @@
 import useRepositoryQuery from "@/pages/Home/queries/useRepositoryQuery";
-import {
-  Blockquote,
-  Box,
-  HStack,
-  Icon,
-  Skeleton,
-  Span,
-  Text,
-} from "@chakra-ui/react";
+import { Blockquote, Box, HStack, Icon, Span, Text } from "@chakra-ui/react";
 import { HiStar } from "react-icons/hi";
+
+import RepositoryLoading from "../RepositoryLoading";
 
 const RepositoryList = ({ username }: { username: string }) => {
   const { data, isLoading, isError, isFetched } = useRepositoryQuery(username);
 
-  if (isLoading) return <Skeleton height="20px" width="100%" />;
+  if (isLoading)
+    return Array.from({ length: 3 }).map((_, index) => (
+      <RepositoryLoading key={index} />
+    ));
   if (isError) return <div>Error fetching repositories.</div>;
   if (!isFetched || !data || data.length === 0) {
     return <div>No repositories found for this user.</div>;
@@ -28,6 +25,7 @@ const RepositoryList = ({ username }: { username: string }) => {
           p={2}
           borderRadius="md"
           mb={2}
+          data-testid="repository"
         >
           <HStack gap={4} alignItems="center">
             <Span flex="1">
